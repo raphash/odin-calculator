@@ -38,10 +38,10 @@ numbers.forEach((number) => {
         display.textContent += ".";
 
         // Logic to check what is the current operand to add the dot.
-        if (!operand2) {
+        if (!operation[2]) {
           operation[0] = display.textContent;
         } 
-        else if (operator) {
+        else if (operation[1]) {
           operation[2] = display.textContent;
         }
       }
@@ -75,7 +75,7 @@ numbers.forEach((number) => {
   }
 });
 
-// Logic of arithmetic operators
+// Logic of arithmetic operators.
 operators.forEach((operator) => {
   operator.addEventListener("click", ()=>{
     if (operator.textContent != "=") {
