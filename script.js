@@ -1,3 +1,11 @@
+/* 
+ * This is my solution for theodinproject - calculator. 
+ * This project has not been refactored much, it needs to be refactored, 
+ * but I don't want to refactor it. It has some small bugs that do not interfere
+ * with the overall functioning of the code, such as adding too many zeros in the 
+ * second operand like "000125". 
+ */
+
 const display = document.querySelector(".value");
 const numbers = document.querySelectorAll(".number");
 const operators = document.querySelectorAll(".operator");
@@ -22,18 +30,18 @@ function operate(operand1, operator, operand2) {
   }
 }
 
-// Logic of numeric buttons
+// Logic of numeric buttons.
 numbers.forEach((number) => {
   if (number.classList.contains("dot")) {
     number.addEventListener("click", ()=>{
       if (!display.textContent.includes(".")) {
         display.textContent += ".";
 
-        // Logic to check what is the current number to add the dot.
-        if (!operation[2]) {
+        // Logic to check what is the current operand to add the dot.
+        if (!operand2) {
           operation[0] = display.textContent;
         } 
-        else if (operation[1]) {
+        else if (operator) {
           operation[2] = display.textContent;
         }
       }
@@ -41,14 +49,27 @@ numbers.forEach((number) => {
   }
   else {
     number.addEventListener("click", ()=>{
-      if (!operation[1]) {
-        operation[0] += number.textContent;
-  
-        display.textContent = operation[0];
+      // Logic to add multiple zeros after dot or after number different of zero.
+      if ((number.textContent == "0" && display.textContent.includes(".")) || display.textContent != "0") {
+        if (!operation[1]) {
+          operation[0] += number.textContent;
+          display.textContent = operation[0];
+        } 
+        else if (operation[1]) {
+          operation[2] += number.textContent;
+          display.textContent = operation[2];
+        }
+
       } 
-      else if (operation[1]) {
-        operation[2] += number.textContent;
-        display.textContent = operation[2];
+      else if (number.textContent != "0") {
+        if (!operation[1]) {
+          operation[0] += number.textContent;
+          display.textContent = operation[0];
+        } 
+        else if (operation[1]) {
+          operation[2] += number.textContent;
+          display.textContent = operation[2];
+        }
       }
     });
   }
@@ -61,6 +82,9 @@ operators.forEach((operator) => {
       operation[1] = operator.textContent;
     } 
     else if (operation[1]) {
+      if (!operation[0]) operation[0] = 0;
+      if (!operation[2]) operation[2] = 0;
+
       display.textContent = operate(... operation);
       
       operation[0] = display.textContent;
