@@ -6,18 +6,19 @@ const clear = document.querySelector(".clear");
 // Operation array: firstOperand, operator, secondOperand.
 const operation = ["","",""];
 
-const sum = (a, b) => a + b;
-const sub = (a, b) => a - b;
-const mul = (a, b) => a * b;
-const div = (a, b) => a / b;
-
 // This rounds the operand with decimal points to a precise number without unwanted results.
 function operate(operand1, operator, operand2) {
+  // Operators.
+  const sum = (a, b) => a + b;
+  const sub = (a, b) => a - b;
+  const mul = (a, b) => a * b;
+  const div = (a, b) => a / b;
+
   switch (operator) {
-    case "+": return Math.round(sum(parseFloat(operand1), parseFloat(operand2)) * 1000000000000000) / 1000000000000000;
-    case "-": return Math.round(sub(parseFloat(operand1), parseFloat(operand2)) * 1000000000000000) / 1000000000000000;
-    case "÷": return Math.round(div(parseFloat(operand1), parseFloat(operand2)) * 1000000000000000) / 1000000000000000;
-    case "×": return Math.round(mul(parseFloat(operand1), parseFloat(operand2)) * 1000000000000000) / 1000000000000000;
+    case "+": return sum(parseFloat(operand1), parseFloat(operand2));
+    case "-": return sub(parseFloat(operand1), parseFloat(operand2));
+    case "÷": return div(parseFloat(operand1), parseFloat(operand2));
+    case "×": return mul(parseFloat(operand1), parseFloat(operand2));
   }
 }
 
@@ -59,7 +60,7 @@ operators.forEach((operator) => {
     if (operator.textContent != "=") {
       operation[1] = operator.textContent;
     } 
-    else if (operation[1] && operation[2]) {
+    else if (operation[1]) {
       display.textContent = operate(... operation);
       
       operation[0] = display.textContent;
